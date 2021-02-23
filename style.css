@@ -23,3 +23,8 @@ body > div {
 }
 #scoringMeter > div {
 }
+#questionArea {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
