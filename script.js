@@ -2,6 +2,7 @@ let question = document.querySelector('#question');
 let totalWinnings = document.querySelector('#totalWinnings');
 let potentialEarnings = document.querySelector('#potentialEarnings');
 let scoringMeter = document.querySelector('#scoringMeter');
+// console.log(scoringMeter.children[0].innerText.slice(1)); use this for game loop for dynamic increments
 const points = [
 	10,
 	500,
@@ -36,6 +37,8 @@ function startTimer() {
 /* ------------------------------ What Pokemon is this? --------------------------------*/
 
 const question1 = async () => {
+	let level = scoringMeter.children[scoringMeter.children.length - 1]; //make this dynamic
+	level.style.border = 'dotted lime';
 	let randomPokemonId = Math.floor(Math.random() * 100) + 1;
 	question.innerText = 'What is the name of this Pokemon?';
 	const pokemonSprite = document.querySelector('#pokemonSprite');
@@ -89,12 +92,15 @@ const question1 = async () => {
 
 	const finalAnswer = document.querySelector('#finalAnswer');
 
-	finalAnswer.onclick = (e) => {
+	finalAnswer.onclick = () => {
 		if (selectedAnswer !== undefined) {
 			if (selectedAnswer === answer) {
+				//This is where winning function should go---------------<-----------<------<
 				console.log('Hell yeah, you FUCKIN Right!');
 				potentialEarnings.innerText =
 					Number(potentialEarnings.innerText) + points[0];
+				level.style.background = 'lime';
+				level.style.borderRadius = '10%';
 			} else {
 				console.log('Sorry your FUCKIN WRONG!!');
 			}
