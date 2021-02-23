@@ -28,3 +28,13 @@ body > div {
 	flex-direction: column;
 	justify-content: center;
 }
+#answerSection {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 0;
+}
+#answerSection > li {
+	list-style: none;
+	margin: 10%;
+}

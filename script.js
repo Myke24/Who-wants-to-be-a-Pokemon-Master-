@@ -7,6 +7,30 @@
 //     });
 let question = document.querySelector('#question');
 
+//------------------Clicking Stuff-------------------------------
+
+//----------Timer Stuff------------------------------------
+function startTimer() {
+	const seconds = setInterval(myTimer, 1000);
+	let time = 9;
+	const timer = document.querySelector('#timer');
+	function myTimer() {
+		timer.innerText = `00:0${time--}`;
+		if (time < 0) {
+			myStopFunction();
+		}
+	}
+
+	function myStopFunction() {
+		clearInterval(seconds);
+	}
+}
+
+//------------Answer Button Stuff-----------------------------------
+function selectedAnswer(e) {
+	return e.target.innerText;
+}
+
 /* ------------------------------ What Pokemon is this? --------------------------------*/
 
 const question1 = async () => {
@@ -21,6 +45,7 @@ const question1 = async () => {
 			return pokemon;
 		});
 	pokemonSprite.src = await randomPokemon.sprites.front_default;
+
 	const answer = await randomPokemon.name;
 	let wrongAnswers = [];
 
@@ -42,30 +67,21 @@ const question1 = async () => {
 			});
 	}
 	let answers = document.querySelectorAll('.answer');
+
 	answers[rand4[0]].innerText = wrongAnswers[0];
 	answers[rand4[1]].innerText = wrongAnswers[1];
 	answers[rand4[2]].innerText = wrongAnswers[2];
 	answers[rand4[3]].innerText = answer;
 	console.log(answer);
-
-	//----------Timer Stuff----------------------
-	const seconds = setInterval(myTimer, 1000);
-	let time = 9;
-	const timer = document.querySelector('#timer');
-	function myTimer() {
-		timer.innerText = `00:0${time--}`;
-		if (time < 0) {
-			myStopFunction();
+	const answerSection = document.querySelector('#answerSection');
+	document.onclick = (e) => {
+		if (e.target.innerText === answer) {
+			console.log('Hell yeah, you FUCKIN Right!');
+		} else {
+			console.log('Sorry your FUCKIN WRONG!!');
 		}
-	}
+	};
 
-	function myStopFunction() {
-		clearInterval(seconds);
-	}
+	startTimer();
 };
 question1();
-
-// let img = document.createElement('img');
-// img.src =
-// 	'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png';
-// body.appendChild(img);
