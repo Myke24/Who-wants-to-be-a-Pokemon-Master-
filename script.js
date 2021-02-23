@@ -54,7 +54,7 @@ const question1 = async () => {
 	const answer = await randomPokemon.name;
 	let wrongAnswers = [];
 
-	//Randomize answer order
+	//Randomize the order of the answers
 	const rand = Math.floor(Math.random() * 4);
 	let rand4 = [0, 1, 2, 3];
 	let item = rand4.pop();
@@ -62,15 +62,26 @@ const question1 = async () => {
 	rand4.splice(rand, 0, item);
 	rand4.splice(rand, 0, item2);
 
+	//Create an array of unique random numbers for random pokemon ids to fetch for the wrong numbers array
+	let uniqueRanNumsArr = [];
+	const createUniqueWrong = (randNum) => {
+		if (!uniqueRanNumsArr.includes(randNum) && randNum !== randomPokemonId) {
+			return randNum;
+		}
+		return createUniqueWrong(Math.floor(Math.random() * 100) + 1);
+	};
+
+	//Fill wrong answers array with random unique numbers
 	for (let i = 0; i < 3; i++) {
-		await fetch(
-			`https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random() * 100) + 1}`
-		)
+		let randomID = Math.floor(Math.random() * 100) + 1;
+		uniqueRanNumsArr.push(createUniqueWrong(randomID));
+		await fetch(`https://pokeapi.co/api/v2/pokemon/${uniqueRanNumsArr[i]}`)
 			.then((res) => res.json())
 			.then((pokemon) => {
 				wrongAnswers.push(pokemon.name);
 			});
 	}
+
 	let answers = document.querySelectorAll('.answer');
 
 	answers[rand4[0]].innerText = wrongAnswers[0];
