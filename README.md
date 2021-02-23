@@ -19,3 +19,5 @@ A Jeopardy style game created by using the Fetch API to gather data from the Pok
 
 <img width="1109" alt="Screen Shot 2021-02-22 at 2 37 56 PM" src="https://media.git.generalassemb.ly/user/34175/files/9d62d980-751b-11eb-8bb9-19a6c4ea725c">
 ## Major Hurdles and Overcoming them
+
+- Really tuning into my inner UI designer

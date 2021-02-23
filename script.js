@@ -1,13 +1,19 @@
-// fetch(
-// 	'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
-// )
-// 	.then((res) => res.json())
-// 	.then((data) => {
-
-//     });
 let question = document.querySelector('#question');
-
-//------------------Clicking Stuff-------------------------------
+let totalWinnings = document.querySelector('#totalWinnings');
+let potentialEarnings = document.querySelector('#potentialEarnings');
+let scoringMeter = document.querySelector('#scoringMeter');
+const points = [
+	10,
+	500,
+	1000,
+	2500,
+	5000,
+	10000,
+	250000,
+	500000,
+	750000,
+	1000000,
+];
 
 //----------Timer Stuff------------------------------------
 function startTimer() {
@@ -18,17 +24,13 @@ function startTimer() {
 		timer.innerText = `00:0${time--}`;
 		if (time < 0) {
 			myStopFunction();
+			console.log('timer stopped, intiate loss function');
 		}
 	}
 
 	function myStopFunction() {
 		clearInterval(seconds);
 	}
-}
-
-//------------Answer Button Stuff-----------------------------------
-function selectedAnswer(e) {
-	return e.target.innerText;
 }
 
 /* ------------------------------ What Pokemon is this? --------------------------------*/
@@ -73,12 +75,33 @@ const question1 = async () => {
 	answers[rand4[2]].innerText = wrongAnswers[2];
 	answers[rand4[3]].innerText = answer;
 	console.log(answer);
-	const answerSection = document.querySelector('#answerSection');
+
+	let selectedAnswer = undefined;
 	document.onclick = (e) => {
-		if (e.target.innerText === answer) {
-			console.log('Hell yeah, you FUCKIN Right!');
+		if (e.target.classList.contains('answer')) {
+			selectedAnswer = e.target.innerText;
+			console.log(
+				'This needs to show the user that they selected ' + selectedAnswer
+			);
+		} else if (e.target.id === 'finalAnswer') {
+		}
+	};
+
+	const finalAnswer = document.querySelector('#finalAnswer');
+
+	finalAnswer.onclick = (e) => {
+		if (selectedAnswer !== undefined) {
+			if (selectedAnswer === answer) {
+				console.log('Hell yeah, you FUCKIN Right!');
+				potentialEarnings.innerText =
+					Number(potentialEarnings.innerText) + points[0];
+			} else {
+				console.log('Sorry your FUCKIN WRONG!!');
+			}
 		} else {
-			console.log('Sorry your FUCKIN WRONG!!');
+			console.log(
+				'you have to choose an answer first. This button should be working right now!!'
+			);
 		}
 	};
 
