@@ -20,18 +20,20 @@
         </div>
         
         <div id='timer'>00:10</div>
-        <ul id='answerSection'>
-            <li class="answer"></li>
-            <li class="answer"></li>
-            <li class="answer"></li>
-            <li class="answer"></li>
-        </ul>
-        <div id="helper">Please select an answer before you submit!!</div>
-        <button id='submitAnswer'>Submit Answer</button>
+        <div id='answerNsubmit'>
+                    <ul id='answerSection'>
+                        <li class="answer"></li>
+                        <li class="answer"></li>
+                        <li class="answer"></li>
+                        <li class="answer"></li>
+                    </ul>
+                    <button id='submitAnswer'>Submit Answer</button>
+        </div>
+                            <div id="helper">Please select an answer before you submit!!</div>
+
     </div>
 
     <div id='scoringSection'>
-        <p>Winnings Meter</p>
         <div id='scoringMeter'>
             <div>1000000</div>
             <div>750000</div>
@@ -44,7 +46,12 @@
             <div>500</div>
             <div>100</div>
         </div>
+            <div id="modal"><p>CONGRADS! YOU WON!!</p>
+                <button onclick='startOver()'>Play Again?</button>
+            </div>
+            
     </div>
+
 
     <script src="script.js"></script>
 </body>
