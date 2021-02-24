@@ -2,20 +2,41 @@ const user = {
 	earnings: 0,
 	currentLevel: 0,
 };
-let question = document.querySelector('#question');
-let totalWinnings = document.querySelector('#totalWinnings');
+let scoreArea = document.querySelector('#currentNpotentialScoreArea');
+let questionNAnswerArea = document.querySelector('#questionNAnswerArea');
+let scoringSection = document.querySelector('#scoringSection');
 let potentialEarnings = document.querySelector('#potentialEarnings');
 let scoringMeter = document.querySelector('#scoringMeter');
+let meterClassList = scoringMeter.classList;
+
+let question = document.querySelector('#question');
+
 const submitAnswer = document.querySelector('#submitAnswer');
 let submittedAnswer = false;
 let answer = undefined;
 let wrongAnswers;
 document.querySelector('#helper').style.display = 'none';
+scoringMeter.children[
+	scoringMeter.children.length - user.currentLevel - 1
+].style.border = 'dotted lime';
+question.innerText = 'What is the name of this Pokemon?';
+const pokemonSprite = document.querySelector('#pokemonSprite');
+let answers = document.querySelectorAll('.answer');
 
-const startOver = () => {
+const startOver = async () => {
 	user.earnings = 0;
 	user.currentLevel = 0;
 	question1();
+	document.body.innerHTML = ' ';
+	document.body.append(scoreArea);
+	document.body.append(questionNAnswerArea);
+	document.body.append(scoringSection);
+	potentialEarnings.innerText = 0;
+	let levels = scoringMeter.childNodes;
+	console.log(levels[0]);
+	levels.forEach((lvl) => {
+		lvl.style = '';
+	});
 };
 
 //--------------------Losing Algor----------------------------------
@@ -28,8 +49,10 @@ function loseIt() {
 			return 10000;
 		} else if (Number(potentialEarnings.innerText) >= 1000) {
 			return 100;
+		} else if (Number(potentialEarnings.innerText < 900)) {
+			return 25;
 		} else {
-			return 50;
+			return 10;
 		}
 	};
 	potentialEarnings.innerText =
@@ -70,67 +93,59 @@ function stopTimer() {
 	timer.innerText = `00:${time--}`;
 }
 
+/*--------------------------------Get data and create answer, wrong answers and question for that random pokemon*/
+async function getPokemonData() {
+	let randomPokemonId = Math.floor(Math.random() * 100) + 1;
+	let randomPokemon = await fetch(
+		`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`
+	)
+		.then((res) => res.json())
+		.then((pokemon) => {
+			return pokemon;
+		});
+	pokemonSprite.src = await randomPokemon.sprites.front_default;
+
+	answer = await randomPokemon.name;
+	wrongAnswers = [];
+
+	//Randomize the order of the answers
+	const rand = Math.floor(Math.random() * 4);
+	let rand4 = [0, 1, 2, 3];
+	let item = rand4.pop();
+	let item2 = rand4.shift();
+	rand4.splice(rand, 0, item);
+	rand4.splice(rand, 0, item2);
+
+	//Create an array of unique random numbers for random pokemon ids to fetch for the wrong numbers array
+	let uniqueRanNumsArr = [];
+	const createUniqueWrong = (randNum) => {
+		if (!uniqueRanNumsArr.includes(randNum) && randNum !== randomPokemonId) {
+			return randNum;
+		}
+		return createUniqueWrong(Math.floor(Math.random() * 100) + 1);
+	};
+
+	//Fill wrong answers array with random unique numbers
+	for (let i = 0; i < 3; i++) {
+		let randomID = Math.floor(Math.random() * 100) + 1;
+		uniqueRanNumsArr.push(createUniqueWrong(randomID));
+		await fetch(`https://pokeapi.co/api/v2/pokemon/${uniqueRanNumsArr[i]}`)
+			.then((res) => res.json())
+			.then((pokemon) => {
+				wrongAnswers.push(pokemon.name);
+			});
+	}
+
+	answers[rand4[0]].innerText = wrongAnswers[0];
+	answers[rand4[1]].innerText = wrongAnswers[1];
+	answers[rand4[2]].innerText = wrongAnswers[2];
+	answers[rand4[3]].innerText = answer;
+	startTimer();
+}
+
 /* ------------------------------ What Pokemon is this? --------------------------------*/
 
 const question1 = async () => {
-	scoringMeter.children[
-		scoringMeter.children.length - user.currentLevel - 1
-	].style.border = 'dotted lime';
-	let randomPokemonId = Math.floor(Math.random() * 100) + 1;
-	question.innerText = 'What is the name of this Pokemon?';
-	const pokemonSprite = document.querySelector('#pokemonSprite');
-
-	async function getPokemonData() {
-		let randomPokemon = await fetch(
-			`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`
-		)
-			.then((res) => res.json())
-			.then((pokemon) => {
-				return pokemon;
-			});
-		pokemonSprite.src = await randomPokemon.sprites.front_default;
-
-		answer = await randomPokemon.name;
-		wrongAnswers = [];
-
-		//Randomize the order of the answers
-		const rand = Math.floor(Math.random() * 4);
-		let rand4 = [0, 1, 2, 3];
-		let item = rand4.pop();
-		let item2 = rand4.shift();
-		rand4.splice(rand, 0, item);
-		rand4.splice(rand, 0, item2);
-
-		//Create an array of unique random numbers for random pokemon ids to fetch for the wrong numbers array
-		let uniqueRanNumsArr = [];
-		const createUniqueWrong = (randNum) => {
-			if (!uniqueRanNumsArr.includes(randNum) && randNum !== randomPokemonId) {
-				return randNum;
-			}
-			return createUniqueWrong(Math.floor(Math.random() * 100) + 1);
-		};
-
-		//Fill wrong answers array with random unique numbers
-		for (let i = 0; i < 3; i++) {
-			let randomID = Math.floor(Math.random() * 100) + 1;
-			uniqueRanNumsArr.push(createUniqueWrong(randomID));
-			await fetch(`https://pokeapi.co/api/v2/pokemon/${uniqueRanNumsArr[i]}`)
-				.then((res) => res.json())
-				.then((pokemon) => {
-					wrongAnswers.push(pokemon.name);
-				});
-		}
-
-		let answers = document.querySelectorAll('.answer');
-
-		answers[rand4[0]].innerText = wrongAnswers[0];
-		answers[rand4[1]].innerText = wrongAnswers[1];
-		answers[rand4[2]].innerText = wrongAnswers[2];
-		answers[rand4[3]].innerText = answer;
-		console.log(answer);
-		startTimer();
-	}
-
 	await getPokemonData();
 
 	let selectedAnswer = undefined;
