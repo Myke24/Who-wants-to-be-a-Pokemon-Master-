@@ -1,6 +1,5 @@
 const user = {
 	earnings: 0,
-	name: undefined,
 	currentLevel: 0,
 };
 let question = document.querySelector('#question');
@@ -11,27 +10,13 @@ const submitAnswer = document.querySelector('#submitAnswer');
 let submittedAnswer = false;
 let answer = undefined;
 let wrongAnswers;
+document.querySelector('#helper').style.display = 'none';
 
-//----------Timer Stuff------------------------------------
-
-let time = 9;
-const timer = document.querySelector('#timer');
-const countdown = () => {
-	timer.innerText = `00:0${time--}`;
-	if (time <= -1) {
-		stopTimer();
-	}
+const startOver = () => {
+	user.earnings = 0;
+	user.currentLevel = 0;
+	question1();
 };
-let setTimer;
-
-const startTimer = () => {
-	setTimer = setInterval(countdown, 1000);
-};
-function stopTimer() {
-	clearInterval(setTimer);
-	time = 10;
-	timer.innerText = `00:${time--}`;
-}
 
 //--------------------Losing Algor----------------------------------
 
@@ -44,7 +29,7 @@ function loseIt() {
 		} else if (Number(potentialEarnings.innerText) >= 1000) {
 			return 100;
 		} else {
-			return 1;
+			return 50;
 		}
 	};
 	potentialEarnings.innerText =
@@ -52,14 +37,38 @@ function loseIt() {
 	if (Number(potentialEarnings.innerText) <= 0) {
 		clearInterval(losses);
 		setTimeout(() => {
-			document.body.innerHTML = `<h1>Sorry you are not ready to be a Pokemon Master</h1>
-				<img src="https://media1.tenor.com/images/01b11fc630fccfe82dad009ea1e25c28/tenor.gif?itemid=16743813"/>`;
+			document.body.innerHTML = `
+			<h1>Sorry you are not ready to be a Pokemon Master</h1>
+			<img src="https://media1.tenor.com/images/01b11fc630fccfe82dad009ea1e25c28/tenor.gif?itemid=16743813"/>
+			<button onclick="startOver()">Play Again?</button>`;
 		}, 1000);
 	}
 }
 const loseEarnings = () => {
 	losses = setInterval(loseIt, 20);
 };
+
+//----------Timer Stuff------------------------------------
+
+let time = 9;
+const timer = document.querySelector('#timer');
+const countdown = () => {
+	timer.innerText = `00:0${time--}`;
+	if (time <= -1) {
+		stopTimer();
+		loseEarnings();
+	}
+};
+let setTimer;
+
+const startTimer = () => {
+	setTimer = setInterval(countdown, 1000);
+};
+function stopTimer() {
+	clearInterval(setTimer);
+	time = 10;
+	timer.innerText = `00:${time--}`;
+}
 
 /* ------------------------------ What Pokemon is this? --------------------------------*/
 
@@ -136,14 +145,13 @@ const question1 = async () => {
 	};
 
 	submitAnswer.onclick = () => {
-		if (true) {
-			stopTimer();
-			console.log('Stopped timer');
-		}
 		if (selectedAnswer !== undefined) {
+			if (true) {
+				stopTimer();
+				console.log('Stopped timer');
+			}
 			if (selectedAnswer === answer) {
 				//This is where winning function should go---------------<-----------<------<
-				console.log('Hell yeah, you FUCKIN Right!');
 				if (user.currentLevel === 9) {
 					console.log('Congraduates, you WON!... Nothing!');
 				}
@@ -172,9 +180,7 @@ const question1 = async () => {
 				loseEarnings();
 			}
 		} else {
-			console.log(
-				'you have to choose an answer first. This button should be working right now!!'
-			);
+			document.querySelector('#helper').style.display = 'block';
 		}
 	};
 };
