@@ -1,14 +1,18 @@
 # Who-wants-to-be-a-Pokemon-Master-
 
-A game created by using the Fetch API to gather data from the PokeAPI
+A trivia game created using the Fetch API to gather data from the PokeAPI to create dynamic questions about Pokemon
 
 ## App
 
+<img width="1873" alt="Screen Shot 2021-02-24 at 10 49 41 PM" src="https://user-images.githubusercontent.com/24277513/109105624-ecfbfd80-76f3-11eb-8f56-7c31af081777.png">
+
 ## Technologies Used
 
-    Fetch API, PokeAPI, tenor.com(for the image for losing)
+    Fetch API, PokeAPI, tenor.com(just for an image)
 
 ## Installation Instructions
+
+Go to the website @ https://myke24.github.io/Who-wants-to-be-a-Pokemon-Master-/
 
 ## User Stories
 
@@ -27,3 +31,4 @@ A game created by using the Fetch API to gather data from the PokeAPI
 - Really understanding the benefits of practicing functional programming. Saved me a lot of time when debugging. Should have started with it in the beginning.
 - Resetting timers and intervals should have been easier to implement
 - Need to focus on core concepts better
+- Staying organized
