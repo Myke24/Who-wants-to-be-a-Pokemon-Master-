@@ -172,7 +172,11 @@ const question1 = async () => {
 	let selectedAnswer = undefined;
 	document.onclick = (e) => {
 		if (e.target.classList.contains('answer')) {
+			answers.forEach((ans) => {
+				ans.style.background = 'white';
+			});
 			selectedAnswer = e.target.innerText;
+			e.target.style.background = 'green';
 			console.log(
 				'This needs to show the user that they selected ' + selectedAnswer
 			);
@@ -181,6 +185,9 @@ const question1 = async () => {
 	};
 
 	submitAnswer.onclick = () => {
+		answers.forEach((ans) => {
+			ans.style.background = 'white';
+		});
 		if (selectedAnswer !== undefined) {
 			if (true) {
 				stopTimer();
