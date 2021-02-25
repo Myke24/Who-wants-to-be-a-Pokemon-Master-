@@ -1,0 +1,157 @@
+* {
+	margin: 0 auto;
+}
+body {
+	display: flex;
+	align-items: center;
+	height: 100vh;
+}
+body > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	height: 100%;
+}
+
+/*---------------------------------------------SCORING*/
+#currentNpotentialScoreArea {
+	width: 30%;
+	height: 50%;
+	position: relative;
+	bottom: 20%;
+}
+#currentNpotentialScoreArea h1 {
+	padding: 30% 5% 0;
+	margin: 0;
+	font-size: 3rem;
+	text-align: center;
+}
+#currentNpotentialScoreArea p {
+	border-radius: 10%;
+	border: 3px solid black;
+	margin: 0 10% 10%;
+	font-size: 5rem;
+	text-align: center;
+}
+
+/*--------------------------------------------DIFFICULTY*/
+#difficulty {
+	width: 100%;
+	font-size: 2rem;
+}
+
+/*--------------------------------------------QUESTIONS, SPRITE & TIMER */
+#questionNAnswerArea {
+	width: 40%;
+	margin: 0;
+	border-radius: 10%;
+	overflow: hidden;
+}
+#questionNAnswerArea > * {
+	width: 100%;
+}
+#questionArea {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+#question {
+	padding: 0 5%;
+	border-radius: 10%;
+	font-size: 3rem;
+}
+#timer {
+	text-align: center;
+	font-size: 5rem;
+}
+
+/*--------------------------------------------ANSWERS */
+#answerNsubmit {
+	display: flex;
+	width: 80%;
+	margin: 0 5%;
+}
+#answerSection {
+	display: flex;
+	flex-wrap: wrap;
+	width: 95%;
+	padding: 0%;
+	margin: 0;
+}
+#answerSection > li {
+	list-style: none;
+	width: 30%;
+	padding: 5%;
+	margin: 1%;
+	border: 3px solid black;
+	border-radius: 10%;
+	font-size: 2rem;
+	text-align: center;
+}
+#answerSecion li:hover {
+	background-color: yellow;
+}
+#submitAnswer {
+	background: rgba(255, 255, 255, 0.5);
+	padding: 0;
+	margin: 10% 0 10% 0;
+	border-radius: 10%;
+	font-size: 2rem;
+}
+
+/*--------------------------------------------SCORING METER */
+#scoringSection {
+	width: 30%;
+}
+#scoringMeter {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	width: 70%;
+	height: 70%;
+}
+#scoringMeter > div {
+	padding: 1% 30%;
+	border: dotted black;
+	border-radius: 20%;
+	margin: 1%;
+	font-size: 2rem;
+}
+
+/*--------------------------------------------MODAL */
+#modal {
+	display: flex;
+	background-image: radial-gradient(red 30%, white 40%, red, black);
+	width: 70vh;
+	height: 70vh;
+	position: fixed;
+	border: 5px solid black;
+	border-radius: 50%;
+	left: 37vw;
+	bottom: 10vh;
+	font-size: large;
+	color: black;
+	text-align: center;
+}
+#modal > * {
+	margin: 25%;
+}
+#modal p {
+	position: absolute;
+	left: 1%;
+	bottom: 60%;
+}
+#modal button {
+	background: white;
+	padding: 15%;
+	border: 3px solid black;
+	border-radius: 50%;
+	text-align: center;
+	text-decoration: none;
+	font-size: 16px;
+}
+
+.selected {
+	background: green;
+}
