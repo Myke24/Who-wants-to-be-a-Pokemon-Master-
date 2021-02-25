@@ -147,13 +147,25 @@ function stopTimer() {
 /*--------------------------------Get data and create answer, wrong answers and question for that random pokemon*/
 async function getPokemonData() {
 	let randomPokemonId = Math.floor(Math.random() * numOfPokemon) + 1;
-	let randomPokemon = await fetch(
-		`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`
-	)
-		.then((res) => res.json())
-		.then((pokemon) => {
-			return pokemon;
-		});
+	let randomPokemon;
+	try {
+		randomPokemon = await fetch(
+			`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`
+		)
+			.then((res) => res.json())
+			.then((pokemon) => {
+				return pokemon;
+			});
+	} catch (err) {
+		randomPokemon = await fetch(
+			`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`
+		)
+			.then((res) => res.json())
+			.then((pokemon) => {
+				return pokemon;
+			});
+	}
+
 	pokemonSprite.src = await randomPokemon.sprites.front_default;
 
 	answer = await randomPokemon.name;
