@@ -18,7 +18,7 @@ body > div {
 	width: 30%;
 	height: 50%;
 	position: relative;
-	bottom: 30%;
+	bottom: 20%;
 }
 #currentNpotentialScoreArea h1 {
 	padding: 30% 5% 0;
@@ -29,9 +29,15 @@ body > div {
 #currentNpotentialScoreArea p {
 	border-radius: 10%;
 	border: 3px solid black;
-	margin: 0 10%;
+	margin: 0 10% 10%;
 	font-size: 5rem;
 	text-align: center;
+}
+
+/*--------------------------------------------DIFFICULTY*/
+#difficulty {
+	width: 100%;
+	font-size: 2rem;
 }
 
 /*--------------------------------------------QUESTIONS, SPRITE & TIMER */

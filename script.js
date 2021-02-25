@@ -2,13 +2,40 @@ const user = {
 	earnings: 0,
 	currentLevel: 0,
 };
-document.querySelector('#modal').style.display = 'none';
 let scoreArea = document.querySelector('#currentNpotentialScoreArea');
 let questionNAnswerArea = document.querySelector('#questionNAnswerArea');
 let scoringSection = document.querySelector('#scoringSection');
 let potentialEarnings = document.querySelector('#potentialEarnings');
 let scoringMeter = document.querySelector('#scoringMeter');
 let meterClassList = scoringMeter.classList;
+console.log(scoringMeter.children[0].innerText);
+
+let numOfPokemon = 100;
+const changeLvl = (lvl) => {
+	switch (lvl) {
+		case 1:
+			numOfPokemon = 100;
+			// for (let i = 0; i < scoringMeter.children.length; i++) {
+			// 	scoringMeter.children[i].innerText =
+			// 		Number(scoringMeter.children[i].innerText) * 1;
+			// }
+			break;
+		case 2:
+			numOfPokemon = 400;
+			// for (let i = 0; i < scoringMeter.children.length; i++) {
+			// 	scoringMeter.children[i].innerText =
+			// 		Number(scoringMeter.children[i].innerText) * 2;
+			// }
+			break;
+		case 3:
+			numOfPokemon = 700;
+			// for (let i = 0; i < scoringMeter.children.length; i++) {
+			// 	scoringMeter.children[i].innerText =
+			// 		Number(scoringMeter.children[i].innerText) * 4;
+			// }
+			break;
+	}
+};
 
 let question = document.querySelector('#question');
 
@@ -30,12 +57,15 @@ const startOver = async () => {
 	user.currentLevel = 0;
 	question1();
 	document.body.innerHTML = ' ';
+	document.body.style.display = null;
+	document.body.style.flexDirection = null;
+	document.body.style.justifyContent = null;
+	document.body.style.background = 'white';
 	document.body.append(scoreArea);
 	document.body.append(questionNAnswerArea);
 	document.body.append(scoringSection);
 	potentialEarnings.innerText = 0;
 	let levels = scoringMeter.childNodes;
-	console.log(levels[0]);
 	levels.forEach((lvl) => {
 		lvl.style = '';
 	});
@@ -43,8 +73,14 @@ const startOver = async () => {
 
 //--------------------Winning Algor-----------------------------
 function winIt() {
-	console.log('Congrads, you WON!... Nothing!');
-	document.querySelector('#modal').style.display = 'flex';
+	document.body.style.background = 'black';
+
+	document.body.innerHTML = `
+		    <div id="modal" style="">
+				<p style="margin: 25%;position: absolute;left: 1%;bottom: 60%;" >CONGRATS! YOU WON!!</p>
+                <button onclick='startOver()' style="margin: 25%;background: white;padding: 15%;border: 3px solid black;border-radius: 50%;text-align: center;text-decoration: none;font-size:16px;">Play Again?</button>
+            </div>
+	`;
 }
 
 //--------------------Losing Algor----------------------------------
@@ -53,35 +89,32 @@ let losses;
 
 function loseIt() {
 	let takeAwayFactor = () => {
-		if (Number(potentialEarnings.innerText) >= 100000) {
+		if (Number(potentialEarnings.innerText) >= 250000) {
 			return 10000;
-		} else if (
-			Number(potentialEarnings.innerText) < 100000 &&
-			Number(potentialEarnings.innerText) >= 10000
-		) {
+		} else if (Number(potentialEarnings.innerText) >= 10000) {
 			return 1000;
-		} else if (
-			Number(potentialEarnings.innerText) <= 10000 &&
-			Number(potentialEarnings.innerText) >= 5000
-		) {
-			return 100;
-		} else if (Number(potentialEarnings.innerText < 1000)) {
-			return 25;
+		} else if (Number(potentialEarnings.innerText) > 1000) {
+			return 500;
+		} else if (Number(potentialEarnings.innerText) < 1000) {
+			return 200;
 		} else {
-			return 10;
+			return 1;
 		}
 	};
 	potentialEarnings.innerText =
 		Number(potentialEarnings.innerText) - takeAwayFactor();
-	if (Number(potentialEarnings.innerText) < 0) {
+	if (Number(potentialEarnings.innerText) < 50) {
+		potentialEarnings.innerText = 0;
 		clearInterval(losses);
 		setTimeout(() => {
 			document.body.innerHTML = `
-			<h1>Sorry you are not ready to be a Pokemon Master</h1>
-			<img src="https://media1.tenor.com/images/01b11fc630fccfe82dad009ea1e25c28/tenor.gif?itemid=16743813"/>
-			<button id="startOverBtn" onclick="startOver()">Play Again</button>
+			<h1 class="lostClass">Sorry you are not ready to be a Pokemon Master</h1>
+			<img class="lostClass" src="https://media1.tenor.com/images/01b11fc630fccfe82dad009ea1e25c28/tenor.gif?itemid=16743813"/>
+			<button id="startOverBtn" class="lostClass" onclick="startOver()">Play Again</button>
 			`;
-			// document.querySelector('#startOverBtn').style.display = 'block';
+			document.body.style.display = 'flex';
+			document.body.style.flexDirection = 'column';
+			document.body.style.justifyContent = 'space-around';
 		}, 1000);
 	}
 }
@@ -113,7 +146,7 @@ function stopTimer() {
 
 /*--------------------------------Get data and create answer, wrong answers and question for that random pokemon*/
 async function getPokemonData() {
-	let randomPokemonId = Math.floor(Math.random() * 100) + 1;
+	let randomPokemonId = Math.floor(Math.random() * numOfPokemon) + 1;
 	let randomPokemon = await fetch(
 		`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`
 	)
@@ -140,12 +173,12 @@ async function getPokemonData() {
 		if (!uniqueRanNumsArr.includes(randNum) && randNum !== randomPokemonId) {
 			return randNum;
 		}
-		return createUniqueWrong(Math.floor(Math.random() * 100) + 1);
+		return createUniqueWrong(Math.floor(Math.random() * numOfPokemon) + 1);
 	};
 
 	//Fill wrong answers array with random unique numbers
 	for (let i = 0; i < 3; i++) {
-		let randomID = Math.floor(Math.random() * 100) + 1;
+		let randomID = Math.floor(Math.random() * numOfPokemon) + 1;
 		uniqueRanNumsArr.push(createUniqueWrong(randomID));
 		await fetch(`https://pokeapi.co/api/v2/pokemon/${uniqueRanNumsArr[i]}`)
 			.then((res) => res.json())
@@ -159,7 +192,7 @@ async function getPokemonData() {
 		answers[rand4[1]].innerText = wrongAnswers[1];
 		answers[rand4[2]].innerText = wrongAnswers[2];
 		answers[rand4[3]].innerText = answer;
-		// startTimer();
+		startTimer();
 	};
 	await createWrongAnswers();
 }
@@ -177,9 +210,6 @@ const question1 = async () => {
 			});
 			selectedAnswer = e.target.innerText;
 			e.target.style.background = 'green';
-			console.log(
-				'This needs to show the user that they selected ' + selectedAnswer
-			);
 		} else if (e.target.id === 'submitAnswer') {
 		}
 	};
@@ -214,7 +244,6 @@ const question1 = async () => {
 						scoringMeter.children.length - user.currentLevel
 					].style.borderRadius = '10%';
 				}
-				console.log(scoringMeter.children.length - user.currentLevel - 1);
 				if (scoringMeter.children.length - user.currentLevel - 1 !== -1) {
 					scoringMeter.children[
 						scoringMeter.children.length - user.currentLevel - 1

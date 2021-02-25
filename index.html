@@ -11,6 +11,12 @@
     <div id='currentNpotentialScoreArea'>
         <h1>Potential Earnings</h1>
         <p id="potentialEarnings">0</p>
+        <div>
+            <h1 id='difficulty'>Difficulty</h1>
+            <button onclick="changeLvl(1)">Easy</button>
+            <button onclick="changeLvl(2)">Medium</button>
+            <button onclick="changeLvl(3)">Hard</button>
+            </div>
     </div>
 
     <div id='questionNAnswerArea'>
@@ -46,8 +52,12 @@
             <div>500</div>
             <div>100</div>
         </div>
-            <div id="modal"><p>CONGRADS! YOU WON!!</p>
-                <button onclick='startOver()'>Play Again?</button>
+
+            <div id="lostSection" style="display:none;">
+                <h1 class="lostClass">Sorry you are not ready to be a Pokemon Master</h1>
+                <img class="lostClass"
+                    src="https://media1.tenor.com/images/01b11fc630fccfe82dad009ea1e25c28/tenor.gif?itemid=16743813" />
+                <button id="startOverBtn" class="lostClass" onclick="startOver()">Play Again</button>
             </div>
             
     </div>
